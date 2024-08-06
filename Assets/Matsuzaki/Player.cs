@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.UIElements;
 
 /// <summary>プレイヤーの紙飛行機</summary>
 public class Player : MonoBehaviour
@@ -74,6 +76,8 @@ public class Player : MonoBehaviour
 
             // プレイヤーの上方に力を加える
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
+
+            StartCoroutine(Rotate());
         }
 
         for (int i = 1; i <= 3; i++)
@@ -174,8 +178,18 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>プレイヤーが無敵状態であるか</summary>
-    public bool IsInvincibility()
+    public bool IsInvincible()
     {
         return _itemEffectFlags[Item.ItemType.Origami];
+    }
+
+    /// <summary>プレイヤーを回転させるコルーチン</summary>
+    private IEnumerator Rotate()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, 55f);
+
+        yield return new WaitForSeconds(1f);
+
+        transform.rotation = Quaternion.Euler(0, 0, 15f);
     }
 }
