@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.UIElements;
 
 /// <summary>プレイヤーの紙飛行機</summary>
 public class Player : MonoBehaviour
