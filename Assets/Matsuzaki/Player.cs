@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>プレイヤーの紙飛行機</summary>
 public class Player : MonoBehaviour
@@ -18,15 +19,29 @@ public class Player : MonoBehaviour
     // スプライト
     private SpriteRenderer _sprite;
 
-    /// <summary>プレイヤーの状態を表す列挙型</summary>
-    private enum PlayerStatus
-    {
-        None, // 通常
-        LowGravity, // 重力が弱い
-        HighGravity, // 重力が強い
-        Invincible // 無敵
-    }
+    // 各アイテムの効果時間
+    private Dictionary<Item.ItemType, float> _itemEffectDurations = new Dictionary<Item.ItemType, float>();
 
+    // 各アイテムの効果フラグ
+    private Dictionary<Item.ItemType, bool> _itemEffectFlags = new Dictionary<Item.ItemType, bool>();
+
+    // 現在の重力
+    private float _currentGravity;
+
+    // プレイヤーのインスタンス
+    public static Player Instance { get; private set; }
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     void Start()
     {
@@ -38,6 +53,15 @@ public class Player : MonoBehaviour
 
         // 重力を設定する
         _rb.gravityScale = _gravity;
+
+        _currentGravity = _gravity;
+
+        // 各アイテムの効果時間を初期化
+        for(int i = 1; i <= 3; i++)
+        {
+            _itemEffectDurations[(Item.ItemType)i] = 0f;
+            _itemEffectFlags[(Item.ItemType)i] = false;
+        }
     }
 
     void Update()
@@ -51,11 +75,107 @@ public class Player : MonoBehaviour
             // プレイヤーの上方に力を加える
             _rb.AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
         }
+
+        for (int i = 1; i <= 3; i++)
+        {
+            if(_itemEffectFlags[(Item.ItemType)i])
+            {
+                _itemEffectDurations[(Item.ItemType)(i)] -= Time.deltaTime;
+
+                if(_itemEffectDurations[(Item.ItemType)(i)] <= 0f)
+                {
+                    _itemEffectDurations[(Item.ItemType)(i)] = 0f;
+                    _itemEffectFlags[(Item.ItemType)(i)] = false;
+                    DeactivateItemEffect((Item.ItemType)(i));
+                }
+            }
+        }
     }
 
-    /// <summary>アイテムを取得した際にその効果を適用するメソッド</summary>
-    public void ApplyItemEffect()
+    /// <summary>アイテムを取得した際に呼ばれる処理</summary>
+    public void CollectItem(Item.ItemType item)
     {
+        // 既にアイテムを取得している場合は効果時間を延長する
+        if (_itemEffectFlags[item] == true)
+        {
+            _itemEffectDurations[item] += 3f;
+        }
+        // 初めて取得する場合は効果時間を3秒に設定する
+        else
+        {
+            _itemEffectDurations[item] = 3f;
+            _itemEffectFlags[item] = true;
+            ActivateItemEffect(item);
+        }  
+    }
 
+    private void ActivateItemEffect(Item.ItemType item)
+    {
+        switch (item)
+        {
+            case Item.ItemType.Feather:
+
+                DecreaseGravity(); break;
+
+            case Item.ItemType.Crow:
+
+                IncreaseGravity(); break;
+
+            case Item.ItemType.Origami:
+
+                EnableInvincibility(); break;
+        }
+    }
+
+    private void DeactivateItemEffect(Item.ItemType item)
+    {
+        switch (item)
+        {
+            case Item.ItemType.Feather:
+
+                IncreaseGravity(); break;
+
+            case Item.ItemType.Crow:
+
+                DecreaseGravity(); break;
+
+            case Item.ItemType.Origami:
+
+                DisableInvincibility(); break;
+        }
+    }
+
+    /// <summary>重力を弱める</summary>
+    private void DecreaseGravity()
+    {
+        float newGravity = _currentGravity / 2;
+        _currentGravity = newGravity;
+        _rb.gravityScale = newGravity;
+    }
+
+    /// <summary>重力を強める</summary>
+    private void IncreaseGravity()
+    {
+        float newGravity = _currentGravity * 2;
+        _currentGravity = newGravity;
+        _rb.gravityScale = newGravity;
+    }
+
+    /// <summary>無敵状態にする</summary>
+    private void EnableInvincibility()
+    {
+        _itemEffectFlags[Item.ItemType.Origami] = true;
+    }
+
+    /// <summary>無敵状態を解除する</summary>
+    private void DisableInvincibility()
+    {
+        _itemEffectFlags[Item.ItemType.Origami] = false;
+    }
+
+    /// <summary>プレイヤーが無敵状態であるか</summary>
+    public bool IsInvincibility()
+    {
+        return _itemEffectFlags[Item.ItemType.Origami];
     }
 }
