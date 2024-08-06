@@ -29,6 +29,11 @@ public class Player : MonoBehaviour
     // 現在の重力
     private float _currentGravity;
 
+    // ゲームオーバーのフラグ
+    private bool _isGameOver;
+
+    private bool _isDropping;
+
     // プレイヤーのインスタンス
     public static Player Instance { get; private set; }
 
@@ -67,6 +72,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(_isDropping)
+        {
+            var current = transform.position;
+            current.y -= Time.deltaTime * 2f;
+            transform.position = current;
+        }
+
+        // ゲームオーバーなら処理を抜ける
+        if (_isGameOver)
+        {
+            return;
+        }
+
         // ジャンプキーが入力された場合
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -190,5 +208,26 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         transform.rotation = Quaternion.Euler(0, 0, 15f);
+    }
+
+    /// <summary>ゲームオーバー時の処理</summary>
+    public void OnGameOver()
+    {
+        // ゲームオーバーフラグをオン
+        _isGameOver = true;
+
+        // 落下しないようにする
+        _rb.gravityScale = 0;
+
+        var newPos = transform.position;
+        newPos.x += 5f;
+        transform.position = new Vector3(newPos.x, newPos.y, newPos.z);
+
+        BackgroundController.Instance.enabled = false;
+    }
+
+    public void SetIsDroppingTrue()
+    {
+        _isDropping = true;
     }
 }

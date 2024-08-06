@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -20,6 +18,20 @@ public class BackgroundController : MonoBehaviour
     float m_initialPositionX;
 
     float _moveSpeed;
+
+    public static BackgroundController Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -47,7 +59,6 @@ public class BackgroundController : MonoBehaviour
         // 背景画像のクローンがある程度左に行ったら、右に戻す
         if (m_backgroundSpriteClone.transform.position.x < m_initialPositionX - m_backgroundSpriteClone.bounds.size.x)
         {
-            
             m_backgroundSpriteClone.transform.Translate(m_backgroundSpriteClone.bounds.size.x * 2, 0f, 0);
         }
     }
