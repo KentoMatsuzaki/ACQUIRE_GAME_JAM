@@ -11,7 +11,7 @@ public class ScrollSpeed : MonoBehaviour
     public float Speed => _speed;
 
     /// <summary>スクロールの加速度</summary>
-    [SerializeField] private float _acceleration = 0.1f; 
+    [SerializeField] private float _acceleration = 0.15f; 
 
     private void Awake()
     {
