@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     /// <summary>ジャンプ力</summary>
     [SerializeField] float _jumpPower = 7.5f;
 
+    /// <summary>スプライト</summary>
+    [SerializeField] List<Sprite> _sprites = new List<Sprite>();
+
     // 剛体
     private Rigidbody2D _rb;
 
@@ -136,14 +139,16 @@ public class Player : MonoBehaviour
         {
             case Item.ItemType.Feather:
 
-                DecreaseGravity(); break;
+                DecreaseGravity();
+                _sprite.sprite = _sprites[1];
+                break;
 
             case Item.ItemType.Crow:
-
+                _sprite.sprite = _sprites[2];
                 IncreaseGravity(); break;
 
             case Item.ItemType.Origami:
-
+                _sprite.sprite = _sprites[3];
                 EnableInvincibility(); break;
         }
     }
@@ -164,6 +169,8 @@ public class Player : MonoBehaviour
 
                 DisableInvincibility(); break;
         }
+
+        _sprite.sprite = _sprites[0];
     }
 
     /// <summary>重力を弱める</summary>
