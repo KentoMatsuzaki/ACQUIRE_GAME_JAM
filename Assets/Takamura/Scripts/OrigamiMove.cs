@@ -13,7 +13,7 @@ public class OrigamiMove : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce(Vector2.left * 50 * speed);
-        _spawner = GameObject.Find("OrigamiSpawner").GetComponent<OrigamiSpawner>();
+        
     }
 
 
@@ -31,10 +31,7 @@ public class OrigamiMove : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if (!isQuitting)
-        {
-            _spawner.RandomSpawn();
-        }
+
     }
 
 }

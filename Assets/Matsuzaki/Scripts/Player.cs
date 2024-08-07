@@ -6,7 +6,7 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     /// <summary>空気抵抗</summary>
-    [SerializeField, Range(0f, 1f)] float _drag = 0.5f;
+    [SerializeField, Range(0f, 5f)] float _drag = 0.5f;
 
     /// <summary>重力</summary>
     [SerializeField, Range(0f, 1f)] float _gravity = 0.75f;
@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
     /// <summary>重力を弱める</summary>
     private void DecreaseGravity()
     {
-        float newGravity = _currentGravity / 2;
+        float newGravity = _currentGravity / 4;
         _currentGravity = newGravity;
         _rb.gravityScale = newGravity;
     }
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
     /// <summary>重力を強める</summary>
     private void IncreaseGravity()
     {
-        float newGravity = _currentGravity * 2;
+        float newGravity = _currentGravity * 4;
         _currentGravity = newGravity;
         _rb.gravityScale = newGravity;
     }
@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(0, 0, 55f);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         transform.rotation = Quaternion.Euler(0, 0, 0f);
     }

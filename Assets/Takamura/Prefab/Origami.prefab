@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7029259667976567468}
   - component: {fileID: 5943687389166039607}
   - component: {fileID: 8731477126197168636}
-  - component: {fileID: 7953177260789308270}
   - component: {fileID: 3723721466332956071}
   m_Layer: 0
   m_Name: Origami
@@ -146,19 +145,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: abd00bca131f9f442873788b3cbf7edb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioClip: {fileID: 0}
---- !u!114 &7953177260789308270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5571193018731430674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71e2d135b000eb7439815cae7a3809f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &3723721466332956071
