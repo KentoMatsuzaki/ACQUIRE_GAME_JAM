@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -17,20 +19,12 @@ public class BackgroundController : MonoBehaviour
     /// <summary>”wŒiÀ•W‚Ì‰Šú’l</summary>
     float m_initialPositionX;
 
-    float _moveSpeed;
-
-    public static BackgroundController Instance { get; private set; }
+    private static BackgroundController _instance;
+    public static BackgroundController Instance => _instance;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        _instance = this;
     }
 
     void Start()
@@ -40,15 +34,13 @@ public class BackgroundController : MonoBehaviour
         // ”wŒi‰æ‘œ‚ğ•¡»‚µ‚Äã‚É•À‚×‚é
         m_backgroundSpriteClone = Instantiate(m_backgroundSprite);
         m_backgroundSpriteClone.transform.Translate(m_backgroundSprite.bounds.size.x, 0f, 0f);
-
-        _moveSpeed = ScrollSpeed.Instance.Speed;
     }
 
     void Update()
     {
         // ”wŒi‰æ‘œ‚ğƒXƒNƒ[ƒ‹‚·‚é
-        m_backgroundSprite.transform.Translate(-_moveSpeed * Time.deltaTime, 0f, 0f);
-        m_backgroundSpriteClone.transform.Translate(-_moveSpeed * Time.deltaTime, 0f, 0f);
+        m_backgroundSprite.transform.Translate(-ScrollSpeed.Instance.Speed * Time.deltaTime, 0f, 0f);
+        m_backgroundSpriteClone.transform.Translate(-ScrollSpeed.Instance.Speed * Time.deltaTime, 0f, 0f);
 
         // ”wŒi‰æ‘œ‚ª‚ ‚é’ö“x¶‚És‚Á‚½‚çA‰E‚É–ß‚·
         if (m_backgroundSprite.transform.position.x < m_initialPositionX - m_backgroundSprite.bounds.size.x)
