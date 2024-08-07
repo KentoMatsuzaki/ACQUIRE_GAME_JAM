@@ -2,36 +2,36 @@ using UnityEngine;
 
 public class OrigamiMove : MonoBehaviour
 {
-    Rigidbody2D rb;
+    //Rigidbody2D rb;
 
-    float speed = 1;
+    //float speed = 1;
 
-    OrigamiSpawner _spawner;
+    //OrigamiSpawner _spawner;
 
-    private static bool isQuitting = false; //ゲームの終了判定
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(Vector2.left * 50 * speed);
+    //private static bool isQuitting = false; //ゲームの終了判定
+    //void Start()
+    //{
+    //    rb = GetComponent<Rigidbody2D>();
+    //    rb.AddForce(Vector2.left * 50 * speed);
         
-    }
+    //}
 
 
-    void Update()
-    {
-        if (this.transform.position.x <= -10)
-        {
-            Destroy(gameObject);
-        }
+    //void Update()
+    //{
+    //    if (this.transform.position.x <= -10)
+    //    {
+    //        Destroy(gameObject);
+    //    }
 
-    }
-    private void OnApplicationQuit()
-    {
-        isQuitting = true;
-    }
-    private void OnDestroy()
-    {
+    //}
+    //private void OnApplicationQuit()
+    //{
+    //    isQuitting = true;
+    //}
+    //private void OnDestroy()
+    //{
 
-    }
+    //}
 
 }

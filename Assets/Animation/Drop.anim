@@ -19,11 +19,13 @@ AnimationClip:
   m_FloatCurves: []
   m_PPtrCurves:
   - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 4fa912cd99f2eee43920504fb6619c32, type: 3}
     - time: 0.33333334
       value: {fileID: 21300000, guid: 2d609e3b830f45740a2c31cdccaeb9da, type: 3}
-    - time: 0.8333333
+    - time: 0.6666667
       value: {fileID: 21300000, guid: 3baad440f5ae5c3469de1c0ef6e74e2f, type: 3}
-    - time: 1.75
+    - time: 1
       value: {fileID: 21300000, guid: 18af96d8139176d4e80c206182b137c1, type: 3}
     attribute: m_Sprite
     path: 
@@ -44,6 +46,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: 21300000, guid: 4fa912cd99f2eee43920504fb6619c32, type: 3}
     - {fileID: 21300000, guid: 2d609e3b830f45740a2c31cdccaeb9da, type: 3}
     - {fileID: 21300000, guid: 3baad440f5ae5c3469de1c0ef6e74e2f, type: 3}
     - {fileID: 21300000, guid: 18af96d8139176d4e80c206182b137c1, type: 3}
@@ -52,7 +55,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.7666667
+    m_StopTime: 1.0166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -79,7 +82,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.75
+  - time: 0.33333334
+    functionName: DisableRootMotion
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
     functionName: SetIsDroppingTrue
     data: 
     objectReferenceParameter: {fileID: 0}

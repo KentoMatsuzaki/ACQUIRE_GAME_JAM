@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>プレイヤーの紙飛行機</summary>
 public class Player : MonoBehaviour
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour
         if(_isDropping)
         {
             var current = transform.position;
-            current.y -= Time.deltaTime * 2f;
+            current.y -= Time.deltaTime * 3f;
             transform.position = current;
         }
 
@@ -229,18 +230,17 @@ public class Player : MonoBehaviour
     /// <summary>ゲームオーバー時の処理</summary>
     public void OnGameOver()
     {
-        _animator.enabled = true;
-        _animator.Play("Drop");
+        _rb.velocity = new Vector2(_rb.velocity.x, 0);
 
         // ゲームオーバーフラグをオン
         _isGameOver = true;
 
+        _animator.enabled = true;
+
+        _animator.Play("Drop");
+
         // 落下しないようにする
         _rb.gravityScale = 0;
-
-        var newPos = transform.position;
-        newPos.x += 1.25f;
-        transform.position = new Vector3(newPos.x, newPos.y, newPos.z);
 
         BackgroundController.Instance.enabled = false;
     }
@@ -248,5 +248,25 @@ public class Player : MonoBehaviour
     public void SetIsDroppingTrue()
     {
         _isDropping = true;
+
+        StartCoroutine(Ending());
+    }
+
+    public void DisableRootMotion()
+    {
+        var pos = transform.position;
+        pos.x += 1.5f;
+        transform.position = pos;
+    }
+
+    IEnumerator Ending()
+    {
+        yield return new WaitForSeconds(3);
+        OnLoadResultScene();
+    }
+
+    public void OnLoadResultScene()
+    {
+        SceneManager.LoadScene("ResultScene");
     }
 }
