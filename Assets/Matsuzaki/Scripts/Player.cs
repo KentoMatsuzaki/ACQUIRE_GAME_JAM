@@ -23,6 +23,11 @@ public class Player : MonoBehaviour
     // スプライト
     private SpriteRenderer _sprite;
 
+    public Sprite sprite;
+
+    // アニメーター
+    private Animator _animator;
+
     // 各アイテムの効果時間
     private Dictionary<Item.ItemType, float> _itemEffectDurations = new Dictionary<Item.ItemType, float>();
 
@@ -56,6 +61,7 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
 
         // 空気抵抗を設定する
         _rb.drag = _drag;
@@ -114,6 +120,8 @@ public class Player : MonoBehaviour
                 }
             }
         }
+
+        sprite = _sprite.sprite;
     }
 
     /// <summary>アイテムを取得した際に呼ばれる処理</summary>
@@ -139,15 +147,16 @@ public class Player : MonoBehaviour
         {
             case Item.ItemType.Feather:
 
-                DecreaseGravity();
                 _sprite.sprite = _sprites[1];
-                break;
+                DecreaseGravity(); break;
 
             case Item.ItemType.Crow:
+
                 _sprite.sprite = _sprites[2];
                 IncreaseGravity(); break;
 
             case Item.ItemType.Origami:
+
                 _sprite.sprite = _sprites[3];
                 EnableInvincibility(); break;
         }
@@ -214,12 +223,15 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        transform.rotation = Quaternion.Euler(0, 0, 15f);
+        transform.rotation = Quaternion.Euler(0, 0, 0f);
     }
 
     /// <summary>ゲームオーバー時の処理</summary>
     public void OnGameOver()
     {
+        _animator.enabled = true;
+        _animator.Play("Drop");
+
         // ゲームオーバーフラグをオン
         _isGameOver = true;
 
@@ -227,7 +239,7 @@ public class Player : MonoBehaviour
         _rb.gravityScale = 0;
 
         var newPos = transform.position;
-        newPos.x += 5f;
+        newPos.x += 1.25f;
         transform.position = new Vector3(newPos.x, newPos.y, newPos.z);
 
         BackgroundController.Instance.enabled = false;
